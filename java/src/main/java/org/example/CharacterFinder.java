@@ -17,12 +17,11 @@ public class CharacterFinder {
   public Character findByFirstName(String name) {
     var found = allCharacters.stream().filter(c -> c.firstName.equals(name)).toList();
     if (found.size() > 0) {
-      var character = found.get(0);
       //bug: return the nemesis instead of the character
-      if (character.getNemesis() != null) {
+      /*if (character.getNemesis() != null) {
         return character.getNemesis();
-      }
-      return character;
+      }*/
+      return found.get(0);
     } else {
       return null;
     }
@@ -36,9 +35,9 @@ public class CharacterFinder {
     var parent = child.parents.stream().findFirst().orElse(null);
 
     // bug: return Monster instead of Jim
-    if (parent != null && parent.firstName.equals("Jim")) {
+    /*if (parent != null && parent.firstName.equals("Jim")) {
       return findByFirstName("Demadog");
-    }
+    }*/
     return parent;
   }
 
@@ -56,27 +55,26 @@ public class CharacterFinder {
     family.addAll(person.parents);
     family.addAll(person.children);
     // bug: exclude siblings
-    //family.UnionWith(person.siblings);
+    family.addAll(person.siblings);
 
     // bug: include Nemesis
-    if (person.getNemesis() != null)
-      family.add(person.getNemesis());
+   /* if (person.getNemesis() != null)
+      family.add(person.getNemesis());*/
 
     return family.stream().toList();
   }
 
   public List<Character> findFamilyByLastName(String lastName) {
-    var family = allCharacters.stream().filter(c -> c.lastName.equals(lastName)).collect(toList());
-
+    return  allCharacters.stream().filter(c -> lastName.equals(c.lastName) && !c.isMonster).collect(toList());
     // bug: monsters are being returned, who are not family with anyone
-    //if (lastName == null)
+    //if (family == null || family.isEmpty())
     //{
     //    var familyWithoutMonsters = family.FindAll(c => !c.IsMonster);
     //    return familyWithoutMonsters.ToList();
     //}
 
     // bug: add all family's Nemeses
-    var nemeses = new ArrayList<Character>();
+    /*var nemeses = new ArrayList<Character>();
 
     for (var character : family) {
       if (character.getNemesis() != null) {
@@ -85,6 +83,6 @@ public class CharacterFinder {
     }
     family.addAll(nemeses);
 
-    return family;
+    return family;*/
   }
 }
